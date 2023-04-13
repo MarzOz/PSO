@@ -99,5 +99,15 @@ anim = FuncAnimation(fig, animate, frames=np.arange(1, args.n_iter), interval=50
 anim.save('PSO.gif', writer='pillow', dpi=120, fps=60)
 plt.show()
 
+'''
+# convergence plot
+plt.clf()
+plt.plot(np.arange(1, args.n_iter + 1), conv)
+plt.xlabel('Iteration')
+plt.ylabel('Fitness value')
+plt.title('PSO Convergence')
+plt.show()
+'''
+
 print('PSO found best solution at f({}) = {}'.format(gbest, gbest_obj))
 print('Global minimum is at f({}) = {}'.format([x_min, y_min], f(x_min, y_min)))

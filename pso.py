@@ -66,7 +66,7 @@ ax.set_ylim(-5, 5)
 
 # Function to update the particles location and velocity
 def update_location():
-    global X, V, pbest, pbest_obj, gbest, gbest_obj
+    global X, V, pbest, pbest_obj, gbest, gbest_obj, conv
 
     # Updates params
     r1, r2 = np.random.rand(2)
@@ -91,23 +91,26 @@ def animate(i):
     p_arrow.set_offsets(X.T)
     p_arrow.set_UVC(V[0], V[1])
     gbest_plot.set_offsets(gbest.reshape(1, -1))
+    conv.append(gbest_obj) if len(conv) < args.n_iter else None
 
     return ax, pbest_plot, p_plot, p_arrow, gbest_plot
+
+# Initialize the convergence record argument
+conv = []
 
 # Run the animation
 anim = FuncAnimation(fig, animate, frames=np.arange(1, args.n_iter), interval=500, blit=False, repeat=True)
 anim.save('PSO.gif', writer='pillow', dpi=120, fps=60)
 plt.show()
 
-'''
 # convergence plot
 plt.clf()
 plt.plot(np.arange(1, args.n_iter + 1), conv)
 plt.xlabel('Iteration')
 plt.ylabel('Fitness value')
 plt.title('PSO Convergence')
-plt.show()
-'''
+plt.savefig('PSO_conv.png')
+
 
 print('PSO found best solution at f({}) = {}'.format(gbest, gbest_obj))
 print('Global minimum is at f({}) = {}'.format([x_min, y_min], f(x_min, y_min)))
